@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sýrový Ráj</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI, sans-serif;
+}
+
+body{
+    background: linear-gradient(135deg,#fff8dc,#ffe082,#ffd54f);
+    min-height:100vh;
+    padding:30px;
+}
+
+.container{
+    max-width:1000px;
+    margin:auto;
+    background:white;
+    border-radius:25px;
+    padding:30px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
+
+header{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.logo{
+    font-size:70px;
+}
+
+h1{
+    color:#ff9800;
+    font-size:3rem;
+}
+
+.subtitle{
+    color:#666;
+    margin-top:10px;
+}
+
+.products{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+}
+
+.product{
+    background:linear-gradient(135deg,#fffde7,#fff3cd);
+    padding:20px;
+    border-radius:20px;
+    border:2px solid #ffd54f;
+    transition:0.3s;
+}
+
+.product:hover{
+    transform:translateY(-5px);
+}
+
+.product h3{
+    color:#f57c00;
+}
+
+.price{
+    font-size:1.3rem;
+    font-weight:bold;
+    margin:10px 0;
+}
+
+input[type=number]{
+    width:80px;
+    padding:8px;
+    border-radius:8px;
+    border:1px solid #ccc;
+}
+
+.customer{
+    margin-top:35px;
+}
+
+.customer h2{
+    color:#f57c00;
+    margin-bottom:15px;
+}
+
+.customer input{
+    width:100%;
+    padding:12px;
+    margin:8px 0;
+    border-radius:10px;
+    border:1px solid #ccc;
+}
+
+.summary{
+    margin-top:25px;
+    background:#fff8e1;
+    padding:20px;
+    border-radius:15px;
+}
+
+.summary p{
+    font-size:1.2rem;
+    margin:10px 0;
+}
+
+button{
+    width:100%;
+    margin-top:25px;
+    padding:18px;
+    font-size:22px;
+    border:none;
+    border-radius:15px;
+    background:linear-gradient(135deg,#ff9800,#ff5722);
+    color:white;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    transform:scale(1.03);
+}
+
+footer{
+    text-align:center;
+    margin-top:20px;
+    color:#666;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+<div class="logo">🧀🥛</div>
+<h1>Sýrový Ráj</h1>
+<p class="subtitle">Poctivé sýry a mléčné výrobky přímo od farmářů</p>
+</header>
+
+<div class="products">
+
+<div class="product">
+<h3>Gouda 500 g</h3>
+<p class="price">129 Kč</p>
+<input type="number" min="0" value="0" id="p1" onchange="spocitat()">
+</div>
+
+<div class="product">
+<h3>Hermelín</h3>
+<p class="price">49 Kč</p>
+<input type="number" min="0" value="0" id="p2" onchange="spocitat()">
+</div>
+
+<div class="product">
+<h3>Eidam 45% 250 g</h3>
+<p class="price">69 Kč</p>
+<input type="number" min="0" value="0" id="p3" onchange="spocitat()">
+</div>
+
+<div class="product">
+<h3>Farmářské mléko 1 l</h3>
+<p class="price">32 Kč</p>
+<input type="number" min="0" value="0" id="p4" onchange="spocitat()">
+</div>
+
+<div class="product">
+<h3>Bílý jogurt</h3>
+<p class="price">24 Kč</p>
+<input type="number" min="0" value="0" id="p5" onchange="spocitat()">
+</div>
+
+<div class="product">
+<h3>Tvaroh</h3>
+<p class="price">35 Kč</p>
+<input type="number" min="0" value="0" id="p6" onchange="spocitat()">
+</div>
+
+</div>
+
+<div class="customer">
+<h2>Kontaktní údaje</h2>
+
+<input type="text" id="jmeno" placeholder="Jméno a příjmení" required>
+
+<input type="email" id="email" placeholder="E-mail" required>
+
+<input type="tel" id="telefon" placeholder="+420 123 456 789" required>
+</div>
+
+<div class="summary">
+<p><strong>Počet kusů:</strong> <span id="kusy">0</span></p>
+<p><strong>Celková cena:</strong> <span id="cena">0</span> Kč</p>
+</div>
+
+<button onclick="odeslatObjednavku()">
+ODESLAT OBJEDNÁVKU
+</button>
+
+<footer>
+© 2026 Sýrový Ráj
+</footer>
+
+</div>
+
+<script>
+
+function spocitat(){
+
+let ceny=[129,49,69,32,24,35];
+
+let q1=parseInt(document.getElementById("p1").value)||0;
+let q2=parseInt(document.getElementById("p2").value)||0;
+let q3=parseInt(document.getElementById("p3").value)||0;
+let q4=parseInt(document.getElementById("p4").value)||0;
+let q5=parseInt(document.getElementById("p5").value)||0;
+let q6=parseInt(document.getElementById("p6").value)||0;
+
+let pole=[q1,q2,q3,q4,q5,q6];
+
+let cena=0;
+let kusy=0;
+
+for(let i=0;i<pole.length;i++){
+    cena += pole[i]*ceny[i];
+    kusy += pole[i];
+}
+
+document.getElementById("cena").innerText=cena;
+document.getElementById("kusy").innerText=kusy;
+}
+
+function odeslatObjednavku(){
+
+let jmeno=document.getElementById("jmeno").value;
+let email=document.getElementById("email").value;
+let telefon=document.getElementById("telefon").value;
+
+if(jmeno=="" || email=="" || telefon==""){
+    alert("Vyplňte všechny kontaktní údaje.");
+    return;
+}
+
+let text=
+"Objednávka od: "+jmeno+
+"%0D%0AE-mail: "+email+
+"%0D%0ATelefon: "+telefon+
+"%0D%0A%0D%0APočet kusů: "+
+document.getElementById("kusy").innerText+
+"%0D%0ACelková cena: "+
+document.getElementById("cena").innerText+" Kč";
+
+window.location.href=
+"mailto:app@kostka-skola.cz?subject=Objednávka Sýrový Ráj&body="+text;
+}
+
+spocitat();
+
+</script>
+
+</body>
+</html>
